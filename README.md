@@ -53,3 +53,9 @@ The first start will take up to 10 minutes to insert the dump.
 More information in [docker compose stack info](geonames-stack/README.md)
 
 
+
+
+## License
+Creative Commons Attribution 4.0 License
+
+
