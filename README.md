@@ -50,4 +50,6 @@ Use the docker compose file in  [geonamesapi-stack](geonames-stack/docker-compos
 It creates a new stack exposing the api on http://127.0.0.1.15000/ and also starts a mysql database.
 The first start will take up to 10 minutes to insert the dump.
 
+More information in [docker compose stack info](geonames-stack/README.md)
+
 
