@@ -1,22 +1,22 @@
 services:
-  geo-city-api:
+  geonames-api:
     image: beberhardt/geonames-api:latest
     ports:
-      - 15000:8080 # exposed to localhost:15000
+      - 15000:8080 # exposed to localhost:15000 -> you can change the port here
     environment:
       DB_USERNAME: cities
-      DB_PASSWORD: password
-      JDBC_SOURCE: jdbc:mysql://mysql:3306/cities #cities is the database name
+      DB_PASSWORD: password # must be same as MYSQL_PASSWORD below
+      JDBC_SOURCE: jdbc:mysql://mysql:3306/cities # cities is the database name, see MYSQL_DATABASE
     depends_on:
       mysql:
         condition: service_healthy
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: strong_password
+      MYSQL_ROOT_PASSWORD: strong_password # change password here
       MYSQL_DATABASE: cities
       MYSQL_USER: cities
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: password # change password here
     healthcheck:
       test: out=$$(mysqladmin ping -h localhost -P 3306 -u root --password=$${MYSQL_ROOT_PASSWORD}); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
       timeout: 20s
