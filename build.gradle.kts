@@ -85,6 +85,8 @@ graalvmNative {
 
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
     jdkVersion = "21"
+    instruction("RUN apk add curl")
+    instruction("""HEALTHCHECK CMD curl -s localhost:8080/health | grep '"status":"UP"' """)
 }
 
 ksp {
