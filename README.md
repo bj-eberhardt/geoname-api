@@ -6,6 +6,7 @@ any network connection.
 All data is stored locally in a SQL database.
 
 It's using the geonames database from: https://download.geonames.org/export/zip/
+
 If you prefer a smaller dataset, checkout [geo-city-api](https://github.com/bj-eberhardt/geo-city-api)
 
 ## Checkout
