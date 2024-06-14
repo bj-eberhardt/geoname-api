@@ -9,7 +9,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
-version = "1.0"
 group = "city.db"
 
 val kotlinVersion = project.properties["kotlinVersion"]
@@ -43,6 +42,9 @@ dependencies {
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("com.mysql:mysql-connector-j")
     runtimeOnly("org.flywaydb:flyway-mysql")
+
+    testImplementation("org.testcontainers:mysql:1.18.3")
+    testImplementation("org.testcontainers:testcontainers")
 }
 
 application {
@@ -122,4 +124,34 @@ tasks.register<Exec>("dockerPushVersionedImage") {
 tasks.register("tagAndPushImages") {
     group = "release"
     dependsOn("dockerPushVersionedImage", "dockerPushLatestImage")
+}
+
+tasks.register("incrementVersion") {
+    group = "release"
+    doLast {
+        println(":incrementVersion - Incrementing Version...")
+        val buildGradleFile = file("gradle.properties")
+        val lines = buildGradleFile.readLines()
+        val changedLines =
+            lines.map {
+                if (it.startsWith("version=", true)) {
+                    println("current $it")
+                    val versionParts = it.split(".")
+                    val newVersion =
+                        versionParts.mapIndexed { index, part ->
+                            if (index != versionParts.size - 1) {
+                                part
+                            } else {
+                                part.toInt() + 1
+                            }
+                        }
+                    val versionText = newVersion.joinToString(".")
+                    println("new $versionText")
+                    versionText
+                } else {
+                    it
+                }
+            }
+        buildGradleFile.writeText(changedLines.joinToString("\n"))
+    }
 }

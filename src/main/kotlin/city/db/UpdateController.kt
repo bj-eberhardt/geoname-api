@@ -10,7 +10,9 @@ open class UpdateController(
 ) {
     @Operation(
         summary = "Updates the database by downloading new geonames databases and importing them.",
-        description = "This is starting the update job in background. It takes about 1h20min and will add it to the database in transaction.",
+        description =
+            "This is starting the update job in background. It takes about 1h20min and will" +
+                " add it to the database in transaction.",
     )
     @Post("update")
     open fun updateDatabase(): String {
